@@ -1,0 +1,56 @@
+service:
+  port:
+    name: http
+    l4_protocol: TCP
+    port: 8080
+    targetPort: 8080
+  label: nforu-goe-main-quf1azukgz
+  name: nforu-goe-main-quf1azukgz
+  selector: nforu-goe-main-quf1azukgz
+  type:
+  - ClusterIP
+  - NodePort
+namespace: -@namespace@-
+pvc:
+  name: pvc-nforu-goe-main-quf1azukgz
+  storageClass: tlc-block-sc
+  size: 5Gi
+  accessMode: ReadWriteOnce
+deployment:
+  app:
+    name: nforu-goe-main-quf1azukgz
+    type: springboot
+  replicas: -@replicas@-
+  update:
+    type: RollingUpdate
+  repo:
+    url: -@imageRepoName@-
+  image:
+    name: nforu-goe-main-quf1azukgz
+    tag: lastest
+    secret: -@repoSecret@-
+  container:
+    name: nforu-goe-main-quf1azukgz
+    port: 8080
+  volume:
+    name: pvc-nforu-goe-main-quf1azukgz
+  resource:
+    request:
+      memory: -@requestMemory@-
+      cpu: -@requestCpu@-
+    limits:
+      memory: -@limitsMemory@-
+      cpu: -@limitsCpu@-
+  backing: 
+    mysql:
+      name: secret-goe-database-v0hw8yrxp1
+  secret:
+    name: []
+  configmap:
+    name: []
+  hpa:
+    name: hpa-nforu-goe-main-quf1azukgz
+    minReplicas: -@minReplicas@-
+    maxReplicas: -@maxReplicas@-
+    cpu: -@cpuAutoScale@-
+    memory: -@memAutoScale@-

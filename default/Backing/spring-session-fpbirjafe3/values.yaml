@@ -1,0 +1,34 @@
+namespace: -@namespace@-
+pvc:
+  name: pvc-spring-session-fpbirjafe3
+  storageClass: tlc-block-sc
+  size: 5Gi
+  accessMode: ReadWriteOnce
+redis:
+  configmap:
+    name: config-spring-session-fpbirjafe3
+  statefulset:
+    name: spring-session-fpbirjafe3
+    replicas: -@replicas@-
+    hpa:
+      name: hpa-spring-session-fpbirjafe3
+      minReplicas: -@minReplicas@-
+      maxReplicas: -@maxReplicas@-
+      cpu: -@cpuAutoScale@-
+      memory: -@memAutoScale@-
+    port: 6379
+    resource:
+      request:
+        memory: -@requestMemory@-
+        cpu: -@requestCpu@-
+    volume:
+      name: spring-session-fpbirjafe3
+  service:
+    name: spring-session-fpbirjafe3
+    port: 6379
+    protocol: 
+  secret:
+    name: secret-spring-session-fpbirjafe3
+    host: spring-session-fpbirjafe3
+    port: 6379
+    password: VHVyYWNvMTIh

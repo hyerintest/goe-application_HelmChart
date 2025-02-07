@@ -1,0 +1,54 @@
+service:
+  port:
+    name: http
+    l4_protocol: TCP
+    port: 8080
+    targetPort: 8080
+  label: apigateway-service-master-crdsg8k2fe
+  name: apigateway-service-master-crdsg8k2fe
+  selector: apigateway-service-master-crdsg8k2fe
+  type:
+  - ClusterIP
+  - NodePort
+namespace: -@namespace@-
+pvc:
+  name: pvc-apigateway-service-master-crdsg8k2fe
+  storageClass: tlc-block-sc
+  size: 5Gi
+  accessMode: ReadWriteOnce
+deployment:
+  app:
+    name: apigateway-service-master-crdsg8k2fe
+    type: egov-springcloud-apigateway
+  replicas: -@replicas@-
+  update:
+    type: RollingUpdate
+  repo:
+    url: -@imageRepoName@-
+  image:
+    name: apigateway-service-master-crdsg8k2fe
+    tag: lastest
+    secret: -@repoSecret@-
+  container:
+    name: apigateway-service-master-crdsg8k2fe
+    port: 8080
+  volume:
+    name: pvc-apigateway-service-master-crdsg8k2fe
+  resource:
+    request:
+      memory: -@requestMemory@-
+      cpu: -@requestCpu@-
+    limits:
+      memory: -@limitsMemory@-
+      cpu: -@limitsCpu@-
+  backing: 
+  secret:
+    name: []
+  configmap:
+    name: []
+  hpa:
+    name: hpa-apigateway-service-master-crdsg8k2fe
+    minReplicas: -@minReplicas@-
+    maxReplicas: -@maxReplicas@-
+    cpu: -@cpuAutoScale@-
+    memory: -@memAutoScale@-
