@@ -1,0 +1,41 @@
+service:
+  port:
+    name: http
+    l4_protocol: TCP
+    port: 8080
+    targetPort: 8080
+  label: batch-service-6pycuskkon
+  name: batch-service-6pycuskkon
+  selector: batch-service-6pycuskkon
+  type:
+  - ClusterIP
+  - NodePort
+namespace: -@namespace@-
+batch:
+  name: batch-service-6pycuskkon
+  image:
+    name: batch-service-6pycuskkon
+    tag: lastest
+    secret: -@repoSecret@-
+  container:
+    name: batch-service-6pycuskkon
+  repo:
+    url: -@imageRepoName@-
+  backing: 
+    pobdb:
+      name: secret-log-db-ytghoildxp
+
+  volume:
+    name: pvc-batch-service-6pycuskkon
+  resource:
+    request:
+      memory: -@requestMemory@-
+      cpu: -@requestCpu@-
+    limits:
+      memory: -@limitsMemory@-
+      cpu: -@limitsCpu@-
+pvc:
+  name: pvc-batch-service-6pycuskkon
+  storageClass: tlc-block-sc
+  size: 5Gi
+  accessMode: ReadWriteOnce

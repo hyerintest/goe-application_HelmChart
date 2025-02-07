@@ -1,0 +1,65 @@
+service:
+  port:
+    name: http
+    l4_protocol: TCP
+    port: 3306
+    targetPort: 3306
+  label: log-db-ytghoildxp
+  name: log-db-ytghoildxp
+  selector: log-db-ytghoildxp
+  type:
+  - ClusterIP
+  - NodePort
+statefulset:
+  name: log-db-ytghoildxp
+  spec:
+    name: log-db-ytghoildxp
+    servicename: log-db-ytghoildxp
+  replicas: -@replicas@-
+  container:
+    name: log-db-ytghoildxp
+    port: 3306
+  volume:
+    name: pvc-log-db-ytghoildxp
+  resource:
+    request:
+      memory: -@requestMemory@-
+      cpu: -@requestCpu@-
+    limits:
+      memory: -@limitsMemory@-
+      cpu: -@limitsCpu@-
+  hpa:
+    name: hpa-log-db-ytghoildxp
+    minReplicas: -@minReplicas@-
+    maxReplicas: -@maxReplicas@-
+    cpu: -@cpuAutoScale@-
+    memory: -@memAutoScale@-
+namespace: -@namespace@-
+mysql:
+  configmap:
+    name: config-log-db-ytghoildxp
+  secret:
+    name: secret-log-db-ytghoildxp
+    username: goeuser
+    password: "Turaco12!"
+    root_password: "Turaco12!"
+    database: goe-db
+    dbhost: log-db-ytghoildxp
+    port: 3306
+  statefulset:
+    name: log-db-ytghoildxp
+    image:
+      url: registry.turacocloud.com/turaco-common/mysql:8.0.32
+secret:
+  name: 
+  registry:
+    name: regsecret
+    url: -@imageRepoName@-
+    username: -@accessKey@-
+    password: -@secretKey@-
+    email: info@twolinecode.com
+pvc:
+  name: pvc-log-db-ytghoildxp
+  storageClass: tlc-block-sc
+  size: 5Gi
+  accessMode: ReadWriteOnce
